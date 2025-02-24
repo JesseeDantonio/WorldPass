@@ -1,5 +1,6 @@
 package fr.jessee.worldPass;
 
+import fr.jessee.worldPass.runnable.AccessCheck;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -11,7 +12,6 @@ import org.reflections.Reflections;
 import org.reflections.scanners.SubTypesScanner;
 
 import java.lang.reflect.Constructor;
-import java.time.LocalTime;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
@@ -23,6 +23,7 @@ public final class WorldPass extends JavaPlugin {
     private static ConfigLoader configLoader;
     private Map<UUID, RestrictedWorld> restrictedWorlds;
     private final TimeValidator timeValidator = new TimeValidator();
+    private AccessCheck accessCheck;
 
 
     @Override
@@ -35,12 +36,16 @@ public final class WorldPass extends JavaPlugin {
         configLoader = new ConfigLoader(this);
         loadConfigurations();
 
-        startWorldAccessCheckTask();
+        accessCheck = new AccessCheck(this);
+        accessCheck.runTaskTimer(this, 0L, 20L * 60);
     }
 
     @Override
     public void onDisable() {
         // Plugin shutdown logic
+        if (accessCheck != null && !(accessCheck.isCancelled())) {
+            accessCheck.cancel();
+        }
     }
 
     private void loadConfigurations() {
