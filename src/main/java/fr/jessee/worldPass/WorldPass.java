@@ -98,6 +98,38 @@ public final class WorldPass extends JavaPlugin {
         }
     }
 
+    private void registerCommands() {
+        Reflections reflections = new Reflections("fr.jessee.worldPass.command", new SubTypesScanner(false));
+        Set<Class<? extends CommandExecutor>> classes = reflections.getSubTypesOf(CommandExecutor.class);
+
+        for (Class<? extends CommandExecutor> commandClass : classes) {
+            try {
+                Constructor<? extends CommandExecutor> defaultConstructor;
+                CommandExecutor commandExecutor;
+
+                try {
+                    defaultConstructor = commandClass.getDeclaredConstructor(WorldPass.class);
+                    commandExecutor = defaultConstructor.newInstance(this);
+                } catch (NoSuchMethodException e) {
+                    defaultConstructor = commandClass.getDeclaredConstructor();
+                    commandExecutor = defaultConstructor.newInstance();
+                }
+
+                String commandName = commandClass.getSimpleName().toLowerCase();
+
+                CommandExecutor finalCommandExecutor = commandExecutor;
+                getCommandOptional(commandName).ifPresent(cmd -> cmd.setExecutor(finalCommandExecutor));
+            } catch (Exception e) {
+                getConsoleSender().sendMessage(e.getMessage());
+                Bukkit.getPluginManager().disablePlugin(this);
+            }
+        }
+    }
+
+    private Optional<PluginCommand> getCommandOptional(String name) {
+        return Optional.ofNullable(this.getCommand(name));
+    }
+
     public static Plugin getInstance() {
         return instance;
     }
