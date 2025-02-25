@@ -1,4 +1,4 @@
-restrictOnlyNewPlayers: false
+restrictOnlyNewPlayers: false # Restreindre uniquement les nouveaux joueurs
 worlds:
   world: # Nom du monde
     startHour: 10   # Heure de début
