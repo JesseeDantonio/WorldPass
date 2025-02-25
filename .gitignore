@@ -8,11 +8,11 @@
 /dataSources.local.xml
 
 # IntelliJ IDEA files
-.idea/
+/.idea/
 *.iml
 
 # Gradle files
-.gradle/
+/.gradle/
 build/
 
 # Lock files
@@ -21,3 +21,4 @@ fileHashes.lock
 # System files
 .DS_Store
 Thumbs.db
+
