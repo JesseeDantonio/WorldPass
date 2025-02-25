@@ -69,6 +69,12 @@ public final class WorldPass extends JavaPlugin {
                 }
             }
         }.runTaskTimer(this, 0L, 20L * 60); // Vérifie toutes les minutes
+    public void updateConfig() {
+        if (configLoader == null) {
+            configLoader = new ConfigLoader(this);
+        }
+        restrictedWorlds = configLoader.getWorldRestrictions();
+        isRestrictOnlyNewPlayersEnabled = configLoader.isRestrictOnlyNewPlayersEnabled();
     }
 
     private void registerListeners(final WorldPass worldPass) {
