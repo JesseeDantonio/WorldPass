@@ -55,7 +55,7 @@ public final class WorldPass extends JavaPlugin {
         isRestrictOnlyNewPlayersEnabled = configLoader.isRestrictOnlyNewPlayersEnabled();
     }
 
-    private void registerListeners(final WorldPass worldPass) {
+    private void registerListeners() {
         // Scanner le package pour trouver toutes les classes implémentant Listener
         Reflections reflections = new Reflections("fr.jessee.worldPass.listener", new SubTypesScanner(false));
         Set<Class<? extends Listener>> classes = reflections.getSubTypesOf(Listener.class);
