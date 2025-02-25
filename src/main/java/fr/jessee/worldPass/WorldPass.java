@@ -31,10 +31,9 @@ public final class WorldPass extends JavaPlugin {
         // Plugin startup logic
         instance = this;
         saveDefaultConfig();
-        registerListeners((WorldPass) instance);
-
-        configLoader = new ConfigLoader(this);
-        loadConfigurations();
+        registerListeners();
+        registerCommands();
+        updateConfig();
 
         accessCheck = new AccessCheck(this);
         accessCheck.runTaskTimer(this, 0L, 20L * 60);
@@ -48,27 +47,6 @@ public final class WorldPass extends JavaPlugin {
         }
     }
 
-    private void loadConfigurations() {
-        restrictedWorlds = configLoader.loadWorldConfigs();
-    }
-
-    private void startWorldAccessCheckTask() {
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                for (Map.Entry<UUID, RestrictedWorld> entry : restrictedWorlds.entrySet()) {
-                    if (!timeValidator.isWithinTimeRange(entry.getValue().startTime(), entry.getValue().endTime())) {
-                        for (Player player : entry.getValue().world().getPlayers()) {
-                            String startFormatted = String.format("%02d:%02d", entry.getValue().startTime().getHour(), entry.getValue().startTime().getMinute());
-                            String endFormatted = String.format("%02d:%02d", entry.getValue().endTime().getHour(), entry.getValue().endTime().getMinute());
-
-                            player.kickPlayer(ChatColor.RED + "Vous ne pouvez pas être dans le monde " + entry.getValue().world().getName() +
-                                    " en dehors des heures autorisées (" + startFormatted + " - " + endFormatted + ").");
-                        }
-                    }
-                }
-            }
-        }.runTaskTimer(this, 0L, 20L * 60); // Vérifie toutes les minutes
     public void updateConfig() {
         if (configLoader == null) {
             configLoader = new ConfigLoader(this);
