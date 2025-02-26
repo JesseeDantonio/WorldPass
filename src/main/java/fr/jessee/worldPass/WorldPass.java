@@ -129,4 +129,12 @@ public final class WorldPass extends JavaPlugin {
     public TimeValidator getTimeValidator() {
         return timeValidator;
     }
+
+    public AccessCheck getAccessCheck() {
+        return accessCheck;
+    }
+
+    public void setAccessCheck(AccessCheck accessCheck) {
+        this.accessCheck = accessCheck;
+    }
 }
