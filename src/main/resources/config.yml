@@ -1,16 +1,17 @@
-restrictOnlyNewPlayers: false # Restreindre uniquement les nouveaux joueurs
 worlds:
   world: # Nom du monde
     startHour: 10   # Heure de début
     startMinute: 30 # Minute de début
     endHour: 22     # Heure de fin
     endMinute: 15   # Minute de fin
+    restrictOnlyNewPlayers: false # Restreindre uniquement les nouveaux joueurs
     minimumPlayTimeMinutes: 0 # Temps de jeu requis (en minutes) pour ignorer les restrictions
   nether: # Exemple pour un autre monde
     startHour: 12
     startMinute: 0
     endHour: 20
     endMinute: 45
+    restrictOnlyNewPlayers: false
     minimumPlayTimeMinutes: 0
 
 
