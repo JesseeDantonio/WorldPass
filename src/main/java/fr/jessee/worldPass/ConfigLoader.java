@@ -15,7 +15,7 @@ public class ConfigLoader {
         this.plugin = plugin;
     }
 
-    public Map<UUID, RestrictedWorld> loadWorldConfigs() {
+    public Map<UUID, RestrictedWorld> getWorldRestrictions() {
         Map<UUID, RestrictedWorld> worldConfigs = new HashMap<>();
 
 
