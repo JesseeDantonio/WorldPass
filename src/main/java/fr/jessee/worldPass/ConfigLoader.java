@@ -31,13 +31,14 @@ public class ConfigLoader {
             int startMinute = worldsSection.getInt(worldName + ".startMinute");
             int endHour = worldsSection.getInt(worldName + ".endHour");
             int endMinute = worldsSection.getInt(worldName + ".endMinute");
+            boolean restrictOnlyNewPlayers = worldsSection.getBoolean(worldName + ".restrictOnlyNewPlayers");
             int minimumPlayTimeMinutes = worldsSection.getInt(worldName + ".minimumPlayTimeMinutes");
 
             LocalTime startTime = LocalTime.of(startHour, startMinute);
             LocalTime endTime = LocalTime.of(endHour, endMinute);
 
             optionalWorld.ifPresent(world -> {
-                worldConfigs.put(world.getUID(), new RestrictedWorld(world, startTime, endTime, minimumPlayTimeMinutes));
+                worldConfigs.put(world.getUID(), new RestrictedWorld(world, startTime, endTime, restrictOnlyNewPlayers ,minimumPlayTimeMinutes));
             });
         }
 
