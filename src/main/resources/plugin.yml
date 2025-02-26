@@ -4,3 +4,9 @@ main: fr.jessee.worldPass.WorldPass
 api-version: '1.20'
 authors: [ Jessee_Dantonio ]
 
+commands:
+  worldpass:
+    description: test
+    usage: /worldpass
+    default: true
+    permission-message: You do not have permission!
