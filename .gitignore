@@ -14,6 +14,7 @@
 # Gradle files
 /.gradle/
 build/
+/gradle/
 
 # Lock files
 fileHashes.lock

@@ -118,7 +118,7 @@ public final class WorldPass extends JavaPlugin {
         return instance;
     }
 
-    public static ConfigLoader getConfigLoader() {
+    public ConfigLoader getConfigLoader() {
         return configLoader;
     }
 
