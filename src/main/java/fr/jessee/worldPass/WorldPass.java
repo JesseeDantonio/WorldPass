@@ -53,7 +53,6 @@ public final class WorldPass extends JavaPlugin {
         }
         this.reloadConfig();
         restrictedWorlds = configLoader.getWorldRestrictions();
-        isRestrictOnlyNewPlayersEnabled = configLoader.isRestrictOnlyNewPlayersEnabled();
     }
 
     private void registerListeners() {
