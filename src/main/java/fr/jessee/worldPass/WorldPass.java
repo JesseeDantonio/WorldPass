@@ -2,17 +2,17 @@ package fr.jessee.worldPass;
 
 import fr.jessee.worldPass.runnable.AccessCheck;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.entity.Player;
+import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.PluginCommand;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scheduler.BukkitRunnable;
 import org.reflections.Reflections;
 import org.reflections.scanners.SubTypesScanner;
 
 import java.lang.reflect.Constructor;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 
@@ -20,10 +20,11 @@ import static org.bukkit.Bukkit.getConsoleSender;
 
 public final class WorldPass extends JavaPlugin {
     private static Plugin instance;
-    private static ConfigLoader configLoader;
+    private ConfigLoader configLoader;
     private Map<UUID, RestrictedWorld> restrictedWorlds;
     private final TimeValidator timeValidator = new TimeValidator();
     private AccessCheck accessCheck;
+
 
 
     @Override
