@@ -1,11 +1,13 @@
 package fr.jessee.worldPass;
 
 import fr.jessee.worldPass.runnable.AccessCheck;
+import net.luckperms.api.LuckPerms;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.reflections.Reflections;
 import org.reflections.scanners.SubTypesScanner;
@@ -24,6 +26,7 @@ public final class WorldPass extends JavaPlugin {
     private Map<UUID, RestrictedWorld> restrictedWorlds;
     private final TimeValidator timeValidator = new TimeValidator();
     private AccessCheck accessCheck;
+    private LuckPerms luckPerms;
 
 
 
@@ -34,6 +37,21 @@ public final class WorldPass extends JavaPlugin {
         saveDefaultConfig();
         registerListeners();
         registerCommands();
+        if (getServer().getPluginManager().getPlugin("LuckPerms") == null) {
+            getLogger().severe("LuckPerms n'est pas installé ! Le plugin sera désactivé.");
+            getServer().getPluginManager().disablePlugin(this);
+            return;
+        }
+        RegisteredServiceProvider<LuckPerms> provider = Bukkit.getServicesManager().getRegistration(LuckPerms.class);
+        if (provider != null) {
+            luckPerms = provider.getProvider();
+            getLogger().info("LuckPerms API initialisée avec succès !");
+        } else {
+            getLogger().severe("Impossible d'obtenir l'API LuckPerms !");
+            getServer().getPluginManager().disablePlugin(this);
+            return;
+        }
+
         updateConfig();
 
         accessCheck = new AccessCheck(this);
@@ -137,5 +155,9 @@ public final class WorldPass extends JavaPlugin {
 
     public void setAccessCheck(AccessCheck accessCheck) {
         this.accessCheck = accessCheck;
+    }
+
+    public LuckPerms getLuckPermsAPI() {
+        return luckPerms;
     }
 }
