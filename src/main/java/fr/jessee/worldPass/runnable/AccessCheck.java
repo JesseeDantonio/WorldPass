@@ -28,8 +28,6 @@ public class AccessCheck extends BukkitRunnable {
                         int playTimeTicks = player.getStatistic(Statistic.PLAY_ONE_MINUTE);
                         int playTimeMinutes = playTimeTicks / (20 * 60);
 
-                        worldPass.getLogger().info("PlayTimeMinutes " + playTimeMinutes + " " + player.getName());
-                        worldPass.getLogger().info("PlayTimeMinutes " + playTimeMinutes + " < " + "minimumPlayTimeMinutes " + entry.getValue().minimumPlayTimeMinutes());
                         //worldPass.getLogger().info("PlayTimeMinutes " + playTimeMinutes + " " + player.getName());
                         //worldPass.getLogger().info("PlayTimeMinutes " + playTimeMinutes + " < " + "minimumPlayTimeMinutes " + entry.getValue().minimumPlayTimeMinutes());
                         // Vérifie si le joueur a atteint le temps de jeu minimum
