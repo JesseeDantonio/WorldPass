@@ -20,7 +20,7 @@ public class AccessCheck extends BukkitRunnable {
     @Override
     public void run() {
         for (Map.Entry<UUID, RestrictedWorld> entry : worldPass.getRestrictedWorlds().entrySet()) {
-            worldPass.getLogger().info("Checking.. " + entry.getKey() + " " +entry.getValue().world().getName());
+            //worldPass.getLogger().info("Checking.. " + entry.getKey() + " " +entry.getValue().world().getName());
             if (!(worldPass.getTimeValidator().isWithinTimeRange(entry.getValue().startTime(), entry.getValue().endTime()))) {
                 for (Player player : entry.getValue().world().getPlayers()) {
                     if (entry.getValue().restrictOnlyNewPlayers()) {
@@ -30,6 +30,8 @@ public class AccessCheck extends BukkitRunnable {
 
                         worldPass.getLogger().info("PlayTimeMinutes " + playTimeMinutes + " " + player.getName());
                         worldPass.getLogger().info("PlayTimeMinutes " + playTimeMinutes + " < " + "minimumPlayTimeMinutes " + entry.getValue().minimumPlayTimeMinutes());
+                        //worldPass.getLogger().info("PlayTimeMinutes " + playTimeMinutes + " " + player.getName());
+                        //worldPass.getLogger().info("PlayTimeMinutes " + playTimeMinutes + " < " + "minimumPlayTimeMinutes " + entry.getValue().minimumPlayTimeMinutes());
                         // Vérifie si le joueur a atteint le temps de jeu minimum
                         if (playTimeMinutes < entry.getValue().minimumPlayTimeMinutes()) {
                             player.kickPlayer("Vous ne pouvez pas entrer dans ce monde car vous êtes un joueur inexpérimenté !");
