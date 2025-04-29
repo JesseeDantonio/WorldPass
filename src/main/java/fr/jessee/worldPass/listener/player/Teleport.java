@@ -27,13 +27,15 @@ public class Teleport implements Listener {
         if (worldPass.getRestrictedWorlds().containsKey(worldUUID.get())) {
             RestrictedWorld restrictedWorld = worldPass.getRestrictedWorlds().get(worldUUID.get());
             if (!(worldPass.getTimeValidator().isWithinTimeRange(restrictedWorld.startTime(), restrictedWorld.endTime()))) {
-                event.setCancelled(true);
-                player.sendMessage(
-                        ChatColor.RED +
-                                "Vous ne pouvez rejoindre " +
-                                restrictedWorld.world().getName() +
-                                " que pendant les heures autorisées !"
-                );
+                if (restrictedWorld.restrictOnlyNewPlayers()) {
+                    long playTimeTicks = worldPass.getPlayTime().p(player.getUniqueId(), worldUUID.get());
+                    long playTimeMinutes = playTimeTicks / (20 * 60);
+                    if (playTimeMinutes < restrictedWorld.minimumPlayTimeMinutes()) {
+                        event.setCancelled(true);
+                    }
+                } else {
+                    event.setCancelled(true);
+                }
 
             }
         }
