@@ -1,5 +1,8 @@
 package fr.jessee.worldPass;
 
+import fr.jessee.worldPass.feature.PlayTime;
+import fr.jessee.worldPass.feature.YamlMessageProvider;
+import fr.jessee.worldPass.iface.MessageProvider;
 import fr.jessee.worldPass.runnable.AccessCheck;
 import net.luckperms.api.LuckPerms;
 import org.bukkit.Bukkit;
@@ -13,6 +16,7 @@ import org.reflections.Reflections;
 import org.reflections.scanners.SubTypesScanner;
 
 import java.lang.reflect.Constructor;
+import java.sql.SQLException;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
@@ -27,8 +31,17 @@ public final class WorldPass extends JavaPlugin {
     private final TimeValidator timeValidator = new TimeValidator();
     private AccessCheck accessCheck;
     private LuckPerms luckPerms;
+    private PlayTime playTime;
+    private MessageProvider messages;
 
-
+    @Override
+    public void onLoad() {
+        super.onLoad();
+        if (getServer().getPluginManager().getPlugin("LuckPerms") == null) {
+            getLogger().severe("LuckPerms n'est pas installé ! Le plugin sera désactivé.");
+            getServer().getPluginManager().disablePlugin(this);
+        }
+    }
 
     @Override
     public void onEnable() {
@@ -37,11 +50,9 @@ public final class WorldPass extends JavaPlugin {
         saveDefaultConfig();
         registerListeners();
         registerCommands();
-        if (getServer().getPluginManager().getPlugin("LuckPerms") == null) {
-            getLogger().severe("LuckPerms n'est pas installé ! Le plugin sera désactivé.");
-            getServer().getPluginManager().disablePlugin(this);
-            return;
-        }
+        updateConfig();
+        messages = new YamlMessageProvider(this);
+
         RegisteredServiceProvider<LuckPerms> provider = Bukkit.getServicesManager().getRegistration(LuckPerms.class);
         if (provider != null) {
             luckPerms = provider.getProvider();
@@ -49,13 +60,16 @@ public final class WorldPass extends JavaPlugin {
         } else {
             getLogger().severe("Impossible d'obtenir l'API LuckPerms !");
             getServer().getPluginManager().disablePlugin(this);
-            return;
         }
 
-        updateConfig();
+        try {
+            playTime = new PlayTime(instance);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
 
         accessCheck = new AccessCheck(this);
-        accessCheck.runTaskTimer(this, 0L, 20L * 60);
+        accessCheck.runTaskTimer(this, 0L, 20L);
     }
 
     @Override
@@ -159,5 +173,13 @@ public final class WorldPass extends JavaPlugin {
 
     public LuckPerms getLuckPermsAPI() {
         return luckPerms;
+    }
+
+    public PlayTime getPlayTime() {
+        return playTime;
+    }
+
+    public MessageProvider getMessages() {
+        return messages;
     }
 }
