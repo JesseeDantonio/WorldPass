@@ -38,14 +38,12 @@ public class AccessCheck extends BukkitRunnable {
                         //worldPass.getLogger().info("PlayTimeMinutes " + playTimeMinutes + " < " + "minimumPlayTimeMinutes " + entry.getValue().minimumPlayTimeMinutes());
                         // Vérifie si le joueur a atteint le temps de jeu minimum
                         if (playTimeMinutes < entry.getValue().minimumPlayTimeMinutes()) {
-                            player.kickPlayer(ChatColor.YELLOW + "Vous ne pouvez pas entrer dans ce monde car vous êtes un joueur inexpérimenté !");
+                            player.kickPlayer(worldPass.getMessages().get("accessDeniedNewPlayer"));
                         }
                     } else {
-                        String startFormatted = String.format("%02d:%02d", entry.getValue().startTime().getHour(), entry.getValue().startTime().getMinute());
-                        String endFormatted = String.format("%02d:%02d", entry.getValue().endTime().getHour(), entry.getValue().endTime().getMinute());
+                        Map<String, String> placeholders = getPlaceholders(entry);
 
-                        player.kickPlayer(ChatColor.YELLOW + "Vous ne pouvez pas être dans le monde " + entry.getValue().world().getName() +
-                                " en dehors des heures autorisées (" + startFormatted + " - " + endFormatted + ").");
+                        player.kickPlayer(worldPass.getMessages().get("accessDenied", placeholders));
                     }
                 }
             }
