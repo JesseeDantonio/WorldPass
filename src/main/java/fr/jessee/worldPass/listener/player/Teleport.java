@@ -2,19 +2,20 @@ package fr.jessee.worldPass.listener.player;
 
 import fr.jessee.worldPass.RestrictedWorld;
 import fr.jessee.worldPass.WorldPass;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Statistic;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerTeleportEvent;
 
 import java.sql.SQLException;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
 public class Teleport implements Listener {
-    private WorldPass worldPass;
+    private final WorldPass worldPass;
 
     public Teleport(WorldPass worldPass) {
         this.worldPass = worldPass;
