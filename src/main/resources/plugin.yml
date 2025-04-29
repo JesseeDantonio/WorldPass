@@ -10,3 +10,4 @@ commands:
     usage: /worldpass
     default: true
     permission-message: You do not have permission!
+    aliases: [wp]
