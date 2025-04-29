@@ -11,3 +11,7 @@ commands:
     default: true
     permission-message: You do not have permission!
     aliases: [wp]
+permissions:
+  worldpass.reload:
+    description: Permission pour exécuter une commande spéciale.
+    default: op
