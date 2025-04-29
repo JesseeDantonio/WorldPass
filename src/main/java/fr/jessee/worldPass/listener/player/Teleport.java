@@ -37,6 +37,9 @@ public class Teleport implements Listener {
                     event.setCancelled(true);
                 }
 
+                if (event.isCancelled()) {
+                    player.sendMessage(worldPass.getMessages().get("teleportCancelled", Map.of("world", restrictedWorld.world().getName())));
+                }
             }
         }
     }
