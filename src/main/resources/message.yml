@@ -1,0 +1,6 @@
+# <world> Nom du monde concerné
+# <start> Début heures autorisées
+# <end> Fin heures autorisées
+accessDeniedNewPlayer: "&cVous ne pouvez pas entrer dans ce monde car vous êtes un joueur inexpérimenté !"
+accessDenied: "&cVous ne pouvez pas être dans le monde <world> en dehors des heures autorisées ( <start> / <end> )."
+teleportCancelled: "&cVous ne pouvez rejoindre <world> que pendant les heures autorisées !"
