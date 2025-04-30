@@ -1,3 +1,5 @@
+safeWorld: "lobby" # Nom du monde qui accueil vos joueurs
+
 worlds:
   world: # Nom du monde
     startHour: 10   # Heure de début
@@ -13,5 +15,6 @@ worlds:
     endMinute: 45
     restrictOnlyNewPlayers: false
     minimumPlayTimeMinutes: 0
+
 
 

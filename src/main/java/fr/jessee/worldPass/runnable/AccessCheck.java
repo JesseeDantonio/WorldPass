@@ -2,6 +2,7 @@ package fr.jessee.worldPass.runnable;
 
 import fr.jessee.worldPass.RestrictedWorld;
 import fr.jessee.worldPass.WorldPass;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -18,6 +19,7 @@ public class AccessCheck extends BukkitRunnable {
 
     @Override
     public void run() {
+        UUID uuidWorld = worldPass.getConfigLoader().getLobbyUUID();
         for (Map.Entry<UUID, RestrictedWorld> entry : worldPass.getRestrictedWorlds().entrySet()) {
             // worldPass.getLogger().info("Checking.. " + entry.getKey() + " " +entry.getValue().world().getName());
             if (!(worldPass.getTimeValidator().isWithinTimeRange(entry.getValue().startTime(), entry.getValue().endTime()))) {
@@ -38,12 +40,23 @@ public class AccessCheck extends BukkitRunnable {
                         //worldPass.getLogger().info("PlayTimeMinutes " + playTimeMinutes + " < " + "minimumPlayTimeMinutes " + entry.getValue().minimumPlayTimeMinutes());
                         // Vérifie si le joueur a atteint le temps de jeu minimum
                         if (playTimeMinutes < entry.getValue().minimumPlayTimeMinutes()) {
-                            player.kickPlayer(worldPass.getMessages().get("accessDeniedNewPlayer"));
+                            if (uuidWorld != null) {
+                                player.teleport(Bukkit.getWorld(uuidWorld).getSpawnLocation());
+                                player.sendMessage(worldPass.getMessages().get("accessDeniedNewPlayer"));
+                            } else {
+                                player.kickPlayer(worldPass.getMessages().get("accessDeniedNewPlayer"));
+                            }
+
                         }
                     } else {
                         Map<String, String> placeholders = getPlaceholders(entry);
 
-                        player.kickPlayer(worldPass.getMessages().get("accessDenied", placeholders));
+                        if (uuidWorld != null) {
+                            player.teleport(Bukkit.getWorld(uuidWorld).getSpawnLocation());
+                            player.sendMessage(worldPass.getMessages().get("accessDenied", placeholders));
+                        } else {
+                            player.kickPlayer(worldPass.getMessages().get("accessDenied", placeholders));
+                        }
                     }
                 }
             }
